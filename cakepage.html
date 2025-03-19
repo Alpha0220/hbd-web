@@ -140,7 +140,6 @@
         Your browser does not support the audio element.
     </audio>
 
-   " D:\hbd-web\music\hbdsong02.mp4"
 
     <script>
         let candles = [document.getElementById('flame1'), document.getElementById('flame2'), document.getElementById('flame3')];
@@ -181,7 +180,7 @@
                 average = average / bufferLength;
 
                 // ถ้าความดังถึงระดับที่กำหนดให้ดับเทียน
-                if (average > 150) {
+                if (average > 100) {
                     extinguishCandles();
                 }
 
