@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body,
+    html {
+        height: 100%;
+        margin: 0;
+        font: 400 15px/1.8 "Lato", sans-serif;
+        color: #777;
+    }
+
+    .bgimg-1,
+    .bgimg-2,
+    .bgimg-3,
+    .bgimg-4,
+    .bgimg-5,
+    .bgimg-9 {
+        position: relative;
+        opacity: 0.65;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+    }
+
+    .bgimg-1 {
+        background-image: url("img/pacha02.jpg");
+        min-height: 100%;
+    }
+
+    .bgimg-2 {
+        background-image: url("img/pacha03.jpg");
+        min-height: 90%;
+    }
+
+    .bgimg-9 {
+        background-image: url("img/pacha04.jpg");
+        min-height: 90%;
+    }
+
+    .bgimg-3 {
+        background-image: url("img/pacha05.jpg");
+        min-height: 90%;
+    }
+
+    .bgimg-4 {
+        background-image: url("img/terex02.jpg");
+        min-height: 90%;
+    }
+
+    .bgimg-5 {
+        background-image: url("img/pacha06.jpg");
+        min-height: 90%;
+    }
+
+    .caption {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        text-align: center;
+        color: #000;
+    }
+
+    .caption span.border {
+        background-color: #111;
+        color: #fff;
+        padding: 18px;
+        font-size: 25px;
+        letter-spacing: 10px;
+    }
+
+    h3 {
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        font: 20px "Lato", sans-serif;
+        color: #111;
+    }
+
+    /* Turn off parallax scrolling for tablets and phones */
+    /* @media only screen and (max-device-width: 1024px) {
+
+        /* .bgimg-1,
+        .bgimg-2,
+        .bgimg-3,
+        .bgimg-9 {
+            background-attachment: scroll;
+        } 
+    } */
+
+    .bgimg-22 {
+        text-align: center;
+        position: relative;
+        top: 3px;
+        font-size: 25px;
+        display: inline-block;
+    }
+
+    .text-1 {
+        font-size: 25px;
+        text-align: center;
+        position: relative;
+        top: 3px;
+        display: inline-block;
+    }
+
+    .display-flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        /* ระยะห่างระหว่างข้อความ */
+    }
+
+    .btn-border {
+        background-color: #111;
+        color: white;
+        padding: 15px 25px;
+        font-size: 20px;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+        letter-spacing: 2px;
+        border-radius: 10px;
+    }
+
+    .btn-border:hover {
+        background-color: #444;
+    }
+
+    .text-box {
+        color: #ddd;
+        background-color: #282E34;
+        font-size: 25px;
+        text-align: center;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* line-height: 1.0; */
+    }
+</style>
+
+<body>
+
+    <audio id="bg-music">
+        <source src="music/Blue-Yung-Kai.mp3" type="audio/mpeg">
+    </audio>
+    <button id="play-music" style="display: block; margin: 20px auto; padding: 10px 20px; font-size: 18px;">
+        🔊 เล่นเพลง
+    </button>
+
+    <div class="bgimg-1">
+        <div class="caption">
+            <span class="border" style="position: relative; top: -250px;">HAPPY BIRTHDAY PHATCHARI</span>
+        </div>
+    </div>
+
+    <div class="display-flex">
+        <p class="text-1">ผ่านมา</p>
+        <p class="bgimg-22" id="demo"></p>
+        <p class="text-1">แล้วนะ ที่เราเจอกันครั้งแรก :)</p>
+    </div>
+
+    <div class="bgimg-2">
+        <div class="caption">
+            <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">19 JULY 2023</span>
+        </div>
+    </div>
+
+    <div style="position:relative;">
+        <div class="text-box">
+            <p>เจอกันครั้งแรก ก็ได้ลูกเลย 1 ตัว 🥰</p>
+        </div>
+    </div>
+    <div class="bgimg-9">
+        <div class="caption">
+            <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">23 DECEMBER
+                2023</span>
+        </div>
+    </div>
+
+    <div style="position:relative;">
+        <div class="text-box">
+
+            <p>รูปที่เราไปเที่ยวต่างจังหวัดกันครั้งแรก</p>
+        </div>
+    </div>
+
+    <div class="bgimg-3">
+        <div class="caption">
+            <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">9 OCTOBER
+                2023</span>
+        </div>
+    </div>
+
+    <div style="position:relative;">
+        <div class="text-box">
+            <p>งานรับปริญญาเธอ👩‍🎓 (เติบโตไปด้วยกันทีละก้าว)</p>
+        </div>
+    </div>
+
+    <div class="bgimg-5">
+        <div class="caption">
+            <span class="border"
+                style="background-color:transparent;font-size:35px;color: #f7f7f7;">ยิ้มสวยมากกกก</span>
+        </div>
+    </div>
+
+    <div style="position:relative;">
+        <div class="text-box">
+            <p>อยู่ด้วยกันทุกเทศกาล แบบนี้ทุกปีนะ🫶 (ตกหลุมรักทุกๆรอยยิ้มของเธอ)</p>
+        </div>
+    </div>
+
+    <div class="bgimg-4">
+        <div class="caption">
+            <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">MY FAMILY :)</span>
+        </div>
+    </div>
+
+    <div style="position:relative;">
+        <div class="text-box" style="line-height: 0; padding-top: 20px;padding-bottom: 20px;">
+            <p>ถึงจะชวนทะเลาะบ่อยๆ แต่ธกฤต รักพัชรีมากกกกกก</p>
+            <p>ขอให้เธอ มีความสุขในทุกๆวัน</p>
+            <p>🇧🇳🐊🦖🐻🐻‍❄️👩‍🏫👨‍💻💞</p>
+        </div>
+        
+
+    </div>
+
+    <div class="bgimg-1">
+        <div class="caption">
+            <button id="next-page-btn" class="btn-border">ไปต่อ⇨</button>
+        </div>
+    </div>
+
+</body>
+<script>
+    // กำหนดวันที่เริ่มต้นที่ต้องการนับ
+    var startDate = new Date("Jul 19, 2023 18:00:00").getTime();
+
+    // อัปเดตค่าทุกๆ 1 วินาที
+    setInterval(function () {
+        // เวลาปัจจุบัน (timestamp)
+        var now = new Date().getTime();
+
+        // คำนวณระยะเวลาที่ผ่านไป (timestamp ปัจจุบัน - timestamp ของวันเริ่มต้น)
+        var elapsedTime = now - startDate;
+
+        // คำนวณจำนวนวัน ชั่วโมง นาที วินาที ที่ผ่านไป
+        var days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((elapsedTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+        // แสดงผลลัพธ์ใน HTML
+        document.getElementById("demo").innerHTML = days + " วัน " + hours + " ชั่วโมง "
+            + minutes + " นาที " + seconds + " วินาที";
+    }, 1000);
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var audio = document.getElementById("bg-music");
+        var playButton = document.getElementById("play-music");
+
+        // โหลดตำแหน่งเพลงจาก sessionStorage
+        var savedTime = sessionStorage.getItem("audioTime");
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+
+        // ถ้าก่อนหน้านี้เพลงเล่นอยู่ ให้เล่นต่อ
+        if (sessionStorage.getItem("isPlaying") === "true") {
+            audio.play().catch(error => console.log("Autoplay ถูกบล็อก:", error));
+            playButton.style.display = "none"; // ซ่อนปุ่มถ้าเล่นแล้ว
+        }
+
+        // ปุ่มเล่นเพลง
+        playButton.addEventListener("click", function () {
+            audio.play();
+            sessionStorage.setItem("isPlaying", "true");
+            //playButton.style.display = "none"; // ซ่อนปุ่มหลังจากเล่นเพลง
+        });
+
+        // บันทึกตำแหน่งเพลงขณะเล่น
+        audio.addEventListener("timeupdate", function () {
+            sessionStorage.setItem("audioTime", audio.currentTime);
+        });
+
+        // ปุ่มเปลี่ยนหน้า
+        document.getElementById("next-page-btn").addEventListener("click", function () {
+            sessionStorage.setItem("isPlaying", !audio.paused);
+            window.location.href = "buttonpage.html";
+        });
+    });
+
+</script>
+
+</html>

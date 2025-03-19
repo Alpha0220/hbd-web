@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Button Game</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #ff00aa, #673dff);
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center; */
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .button-container {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .ok-button,
+        .cancel-button {
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            position: relative;
+            left: -10px;
+        }
+
+        .ok-button {
+            background-color: #673dffb5;
+            color: white;
+        }
+
+        .ok-button:hover {
+            background-color: #4d1cff;
+        }
+
+        .cancel-button {
+            position: absolute;
+            background-color: #ff00aa9d;
+            color: white;
+            transition: top 0.3s, left 0.3s, width 0.3s ease, height 0.3s ease;
+            /* width: 120px;
+            height: 45px; */
+            margin-left: 20px;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="bg-music">
+        <source src="music/Blue-Yung-Kai.mp3" type="audio/mpeg">
+    </audio>
+
+    <div style="margin-bottom: 20px; position: relative; margin-top:250px ; ">
+        <img src="img/thanakrit03.PNG" alt="" style="width: 700px;">
+    </div>
+    <div class="button-container">
+        <button class="ok-button" onclick="completeLove()">รักมากกกก</button>
+        <button class="cancel-button" id="cancelButton" onmouseover="moveCancelButton()">รักแค่นิดนึงง</button>
+    </div>
+
+    <script>
+        function moveCancelButton() {
+            let cancelButton = document.getElementById("cancelButton");
+            let newX = Math.random() * 200 - 10;
+            let newY = Math.random() * 400 - 10;
+            cancelButton.style.top = newY + "%";
+            cancelButton.style.left = newX + "%";
+        }
+
+        function completeLove() {
+            // เก็บอ้างอิงถึง <audio> ก่อนเปลี่ยนเนื้อหา
+            let audio = document.getElementById("bg-music");
+
+            // เปลี่ยนเนื้อหาในหน้า
+            document.body.innerHTML = `
+                <h1 style="color:white; font-size:3rem;font-family: 'Mindful Blazer', cursive;margin-top:100px ;">
+                    โอ้!! พัชรีรักธนกฤต มากกกหรอเนี่ย
+                </h1>
+                <h2 style="color:white; font-size:3rem;">ธนกฤต ก็รักพัชรีมากๆนะ ❤️</h2>
+                <img src="img/kiss.png" alt="Love Image" style="margin-bottom:50px; position: relative; margin-top:20px ;width: 350px;">
+                <h2 style="color:white; font-size:2.5rem;">อยู่ด้วยกันไปนานๆนะคับ🫶🏻</h2>
+            `;
+
+            // เพิ่ม <audio> กลับเข้าไปใน body ใหม่
+            document.body.appendChild(audio);
+
+            // เล่นเพลงต่อ
+            audio.play().catch(error => console.log("Autoplay ถูกบล็อก:", error));
+
+            // ตั้งเวลาเปลี่ยนหน้าไป startpage.html หลังจาก 5 วินาที
+            setTimeout(() => {
+                window.location.href = 'startpage.html';
+            }, 5000);
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            var audio = document.getElementById("bg-music");
+
+            // โหลดตำแหน่งเพลงจาก sessionStorage
+            var savedTime = sessionStorage.getItem("audioTime");
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+
+            // ถ้าก่อนหน้านี้เพลงเล่นอยู่ ให้เล่นต่อ
+            if (sessionStorage.getItem("isPlaying") === "true") {
+                audio.play().catch(error => console.log("Autoplay ถูกบล็อก:", error));
+            }
+
+            // บันทึกตำแหน่งเพลงขณะเล่น
+            audio.addEventListener("timeupdate", function () {
+                sessionStorage.setItem("audioTime", audio.currentTime);
+            });
+
+            // ปุ่มไปหน้า Cake Page
+        document.getElementById("next-page-btn").addEventListener("click", function () {
+                // หยุดเพลงก่อนไปหน้าใหม่
+                audio.pause();
+                sessionStorage.setItem("isPlaying", "false");
+                sessionStorage.removeItem("audioTime"); // ลบตำแหน่งเพลง
+
+                // ไปที่หน้า Cake Page
+                window.location.href = "startpage.html";
+            });
+        });
+    </script>
+</body>
+
+</html>

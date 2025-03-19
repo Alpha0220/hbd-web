@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blow Out The Candles</title>
+    <style>
+        body {
+            background-color: #000000;
+            /* พื้นหลังเริ่มต้นเป็นสีดำ */
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+
+        #cake {
+            margin-top: 50px;
+        }
+
+        .candle {
+            width: 20px;
+            height: 0px;
+            background-color: yellow;
+            margin: 14px;
+            display: inline-block;
+            position: relative;
+            top: 310px;
+        }
+
+        .flame {
+            width: 20px;
+            height: 50px;
+            background-color: orange;
+            border-radius: 50%;
+            position: absolute;
+            top: -20px;
+            left: 0px;
+            transform: translateX(0%);
+            animation: flicker 0.2s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 1;
+                transform: translateX(0%) scale(1);
+            }
+
+            100% {
+                opacity: 0.8;
+                transform: translateX(0%) scale(1.1);
+            }
+        }
+
+        .flame.dims {
+            background-color: transparent;
+        }
+
+        #cake-img {
+            width: 390px;
+            height: auto;
+            position: absolute;
+            top: 405px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .font-header {
+            margin-top: 200px;
+            color: rgb(243, 210, 230);
+            font-size: 60px;
+            font-family: 'Mindful Blazer', cursive;
+            display: none;
+            /* ซ่อนตอนแรก */
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            width: 50px;
+            height: 70px;
+            background-color: red;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: floatUp 4s ease-in-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-600px);
+                opacity: 0;
+            }
+        }
+
+        #img-img {
+            /* padding-top: 0px; */
+            max-width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: none;
+            /* ซ่อนตอนแรก */
+            z-index: -1;
+            /* center */
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <img src="img/bgcake.png" alt="Cake" id="img-img">
+    <h1 class="font-header">HAPPY BIRTHDAY, MY LOVE</h1>
+    <div id="cake">
+        <div class="candle">
+            <div class="flame" id="flame1"></div>
+        </div>
+        <div class="candle">
+            <div class="flame" id="flame2"></div>
+        </div>
+        <div class="candle">
+            <div class="flame" id="flame3"></div>
+        </div>
+    </div>
+    <img src="img/cake03.png" alt="" id="cake-img" />
+
+    <audio id="bg-music" autoplay>
+        <source src="music/hbdsong02.mp4" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+
+
+    <script>
+        let candles = [document.getElementById('flame1'), document.getElementById('flame2'), document.getElementById('flame3')];
+        let isListening = false;
+        let audioContext;
+        let analyser;
+        let microphone;
+
+        // เริ่มต้นการจับเสียงจากไมโครโฟน
+        async function startListening() {
+            if (navigator.mediaDevices) {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(stream);
+                microphone.connect(analyser);
+                analyser.fftSize = 256;
+                isListening = true;
+                monitorSound();
+            } else {
+                alert("ไมโครโฟนไม่พร้อมใช้งาน");
+            }
+        }
+
+        // ตรวจจับระดับเสียง
+        function monitorSound() {
+            if (isListening) {
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+
+                analyser.getByteFrequencyData(dataArray);
+
+                let average = 0;
+                for (let i = 0; i < bufferLength; i++) {
+                    average += dataArray[i];
+                }
+
+                average = average / bufferLength;
+
+                // ถ้าความดังถึงระดับที่กำหนดให้ดับเทียน
+                if (average > 150) {
+                    extinguishCandles();
+                }
+
+                requestAnimationFrame(monitorSound);
+            }
+        }
+
+        // ดับเทียนและเปลี่ยนพื้นหลังเป็นสีชมพู
+        function extinguishCandles() {
+            candles.forEach(candle => {
+                candle.classList.add('dims');
+            });
+            releaseBalloons(); // เรียกฟังก์ชันปล่อยลูกโป่งเมื่อเทียนดับ
+            document.getElementById('img-img').style.display = 'block';
+            document.querySelector('.font-header').style.display = 'block'; // แสดงข้อความ Happy Birthday
+            document.body.style.background = "linear-gradient(to right, #ff00aa, #673dff)";
+            document.body.style.backgroundColor = "#f8c8dc"; // เปลี่ยนพื้นหลังเป็นสีชมพู
+        }
+
+        // เริ่มฟังเสียงเมื่อโหลดหน้าเว็บ
+        window.onload = startListening;
+
+        // document.getElementById("volume-control").addEventListener("input", function () {
+        //     var volume = this.value;
+        //     audio.volume = volume; // ปรับระดับเสียงตามค่าที่ได้จากสไลด์บาร์
+        // });
+
+
+        // ฟังก์ชันสร้างลูกโป่ง
+        function createBalloon() {
+            const balloon = document.createElement("div");
+            balloon.classList.add("balloon");
+            balloon.style.left = Math.random() * 80 + 10 + "%"; // สุ่มตำแหน่ง
+            balloon.style.backgroundColor = getRandomColor(); // สุ่มสี
+            document.body.appendChild(balloon);
+
+            // ลบลูกโป่งหลังจากลอยขึ้นไป
+            setTimeout(() => {
+                balloon.remove();
+            }, 4000);
+        }
+
+        function getRandomColor() {
+            const colors = ["red", "yellow", "purple", "orange", "pink"];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function releaseBalloons() {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createBalloon, i * 500); // ปล่อยลูกโป่งทีละลูก
+            }
+        }
+        function extinguishCandles() {
+            candles.forEach(candle => {
+                candle.classList.add('dims');
+            });
+            releaseBalloons(); // ปล่อยลูกโป่ง
+            document.getElementById('img-img').style.display = 'block';
+            document.querySelector('.font-header').style.display = 'block';
+            document.body.style.background = "linear-gradient(to right, #ff00aa, #673dff)";
+            document.body.style.backgroundColor = "#f8c8dc";
+
+            // เริ่มแสดงข้อความแบบเปลี่ยนทุก 3 วินาที
+            startChangingMessages();
+        }
+
+        // ฟังก์ชันเปลี่ยนข้อความทุก 3 วินาที
+        function startChangingMessages() {
+            const messages = [
+                "Happy Birthday, my love 💖",
+                "ขอให้ปีนี้เป็นปีที่ดีสำหรับพัชรีนะ 🎂",
+                "ขอให้พัชรียิ้มได้ทุกวัน 😊",
+                "ขอให้พัชรีร่างกายแข็งแรง ❤️",
+                "ขอให้พัชรีสมหวังในเรื่องที่อยากได้นะ 🌟",
+                "ขอบคุณที่อยู่ข้างๆ กันเสมอนะ 🥰",
+                "ธนกฤต รัก พัชรีมากๆนะ ❤️",
+            ];
+
+            let index = 0;
+            const textElement = document.querySelector('.font-header');
+            function changeMessage() {
+                textElement.style.opacity = 0; // ทำให้จางลงก่อน
+                setTimeout(() => {
+                    textElement.textContent = messages[index]; // เปลี่ยนข้อความ
+                    let opacity = 0; // เริ่มจากจางสุด
+                    let fadeIn = setInterval(() => {
+                        if (opacity >= 1) {
+                            clearInterval(fadeIn); // หยุดเมื่อถึง opacity 1
+                        }
+                        textElement.style.opacity = opacity;
+                        opacity += 0.1; // ค่อยๆ เพิ่มความเข้ม
+                    }, 100); // ทุก 100ms
+
+                    index = (index + 1) % messages.length; // วนกลับไปที่ข้อความแรกเมื่อจบ
+                }, 1000); // รอ 1 วินาทีก่อนเปลี่ยนข้อความ
+            }
+
+
+            changeMessage(); // แสดงข้อความแรกทันที
+            setInterval(changeMessage, 5000); // เปลี่ยนข้อความทุก 3 วิ
+        } var audio = document.getElementById("bg-music");
+
+        var playlist = [
+            "music/Blue-Yung-Kai.mp3",
+            
+        ];
+        var currentSongIndex = 0; // เริ่มต้นที่เพลงแรก
+
+        // ฟังเหตุการณ์เมื่อเพลงจบ
+        audio.addEventListener("ended", function () {
+            // ไปที่เพลงถัดไป
+            currentSongIndex = (currentSongIndex + 1) % playlist.length; // ใช้ % เพื่อวนลูปกลับไปเพลงแรก
+            audio.src = playlist[currentSongIndex]; // เปลี่ยนเพลง
+            audio.play(); // เล่นเพลงถัดไป
+        });
+
+
+    </script>
+
+</body>
+
+</html>

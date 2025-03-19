@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าแรก</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #ff00aa, #673dff);
+            text-align: center;
+            font-family: Arial, sans-serif;
+            
+        }
+
+        .button-container {
+            margin-top: 50px;
+        }
+
+        .button {
+            background-color: #4200f8f2;
+            color: white;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #270192;
+        }
+        #cake-img {
+            /* padding-top: 0px; */
+            max-width: 100%;
+            height: auto;
+        }
+        .font-header {
+            color: rgb(243, 210, 230);
+            font-size: 60px;
+            font-family: 'Mindful Blazer', cursive;
+            margin-top: 100px;
+            margin-bottom: 150px;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="bg-music">
+        <source src="music/Blue-Yung-Kai.mp3" type="audio/mpeg">
+    </audio>
+
+    <img src="img/bgcake.png" alt="Cake" id="cake-img">
+    <h1 class="font-header">จุ๊จุ๊🤫 พัชรีต้องปิดไฟก่อนนะ</h1>
+
+    <!-- ปุ่ม "ปิดไฟก่อน" -->
+    <div class="button-container">
+        <button class="button" onclick="goToCakePage()">ปิดไฟ</button>
+    </div>
+
+    <script>
+        
+        // ฟังก์ชันไปยังหน้า cakepage.html และเล่นเพลง
+        function goToCakePage() {
+            // สร้าง audio element สำหรับเล่นเพลง
+            var audio = new Audio('music/Blue-Yung-Kai.mp3');
+            audio.play(); // เริ่มเล่นเพลง
+            
+            // เปลี่ยนไปยังหน้า cakepage.html
+            window.location.href = 'cakepage.html';
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            var audio = document.getElementById("bg-music");
+
+            // โหลดตำแหน่งเพลงจาก sessionStorage
+            var savedTime = sessionStorage.getItem("audioTime");
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+
+            // ถ้าก่อนหน้านี้เพลงเล่นอยู่ ให้เล่นต่อ
+            if (sessionStorage.getItem("isPlaying") === "true") {
+                audio.play().catch(error => console.log("Autoplay ถูกบล็อก:", error));
+            }
+
+            // บันทึกตำแหน่งเพลงขณะเล่น
+            audio.addEventListener("timeupdate", function () {
+                sessionStorage.setItem("audioTime", audio.currentTime);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
