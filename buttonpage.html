@@ -79,30 +79,37 @@
         }
 
         function completeLove() {
-            // เก็บอ้างอิงถึง <audio> ก่อนเปลี่ยนเนื้อหา
             let audio = document.getElementById("bg-music");
 
-            // เปลี่ยนเนื้อหาในหน้า
             document.body.innerHTML = `
-                <h1 style="color:white; font-size:3rem;font-family: 'Mindful Blazer', cursive;margin-top:100px ;">
-                    โอ้!! พัชรีรักธนกฤต มากกกหรอเนี่ย
-                </h1>
-                <h2 style="color:white; font-size:3rem;">ธนกฤต ก็รักพัชรีมากๆนะ ❤️</h2>
-                <img src="img/kiss.png" alt="Love Image" style="margin-bottom:50px; position: relative; margin-top:20px ;width: 350px;">
-                <h2 style="color:white; font-size:2.5rem;">อยู่ด้วยกันไปนานๆนะคับ🫶🏻</h2>
-            `;
+        <h1 style="color:white; font-size:3rem; font-family: 'Mindful Blazer', cursive; margin-top:100px; opacity: 0; transition: opacity 2s;" id="love-text">
+            โอ้!! พัชรีรักธนกฤต มากกกหรอเนี่ย
+        </h1>
+        <h2 style="color:white; font-size:3rem; opacity: 0; transition: opacity 3s;" id="love-text-2">
+            ธนกฤต ก็รักพัชรีมากๆนะ ❤️
+        </h2>
+        <img src="img/kiss.png" alt="Love Image" style="margin-bottom:50px; position: relative; margin-top:20px; width: 350px; opacity: 0; transition: opacity 4s;" id="love-img">
+        <h2 style="color:white; font-size:2.5rem; opacity: 0; transition: opacity 5s;" id="love-text-3">
+            อยู่ด้วยกันไปนานๆนะคับ🫶🏻
+        </h2>
+    `;
 
-            // เพิ่ม <audio> กลับเข้าไปใน body ใหม่
             document.body.appendChild(audio);
-
-            // เล่นเพลงต่อ
             audio.play().catch(error => console.log("Autoplay ถูกบล็อก:", error));
 
-            // ตั้งเวลาเปลี่ยนหน้าไป startpage.html หลังจาก 5 วินาที
+            // เพิ่มเอฟเฟกต์การปรากฏ
+            setTimeout(() => document.getElementById("love-text").style.opacity = 1, 500);
+            setTimeout(() => document.getElementById("love-text-2").style.opacity = 1, 1000);
+            setTimeout(() => document.getElementById("love-img").style.opacity = 1, 1500);
+            setTimeout(() => document.getElementById("love-text-3").style.opacity = 1, 2000);
+
+            // เปลี่ยนหน้าแบบหน่วงเวลา
             setTimeout(() => {
                 window.location.href = 'startpage.html';
-            }, 10000);
+            }, 7000000); // เปลี่ยนหน้าหลังจาก 7 วินาที
         }
+
+
         document.addEventListener("DOMContentLoaded", function () {
             var audio = document.getElementById("bg-music");
 
@@ -123,7 +130,7 @@
             });
 
             // ปุ่มไปหน้า Cake Page
-        document.getElementById("next-page-btn").addEventListener("click", function () {
+            document.getElementById("next-page-btn").addEventListener("click", function () {
                 // หยุดเพลงก่อนไปหน้าใหม่
                 audio.pause();
                 sessionStorage.setItem("isPlaying", "false");
