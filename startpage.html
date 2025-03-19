@@ -10,7 +10,7 @@
             background: linear-gradient(to right, #ff00aa, #673dff);
             text-align: center;
             font-family: Arial, sans-serif;
-            
+
         }
 
         .button-container {
@@ -31,18 +31,20 @@
         .button:hover {
             background-color: #270192;
         }
+
         #cake-img {
             /* padding-top: 0px; */
             max-width: 100%;
             height: auto;
         }
+
         .font-header {
             color: rgb(243, 210, 230);
             font-size: 60px;
             font-family: 'Mindful Blazer', cursive;
             margin-top: 100px;
             margin-bottom: 150px;
-            
+
         }
     </style>
 </head>
@@ -61,14 +63,9 @@
     </div>
 
     <script>
-        
+
         // ฟังก์ชันไปยังหน้า cakepage.html และเล่นเพลง
         function goToCakePage() {
-            // สร้าง audio element สำหรับเล่นเพลง
-            var audio = new Audio('music/Blue-Yung-Kai.mp3');
-            audio.play(); // เริ่มเล่นเพลง
-            
-            // เปลี่ยนไปยังหน้า cakepage.html
             window.location.href = 'cakepage.html';
         }
         document.addEventListener("DOMContentLoaded", function () {
@@ -89,7 +86,16 @@
             audio.addEventListener("timeupdate", function () {
                 sessionStorage.setItem("audioTime", audio.currentTime);
             });
+
+            // ถ้าผู้ใช้ไม่ได้กด play ก่อน ให้ลองให้แสดงการอนุญาตให้เล่น
+            if (audio.paused && !audio.playing) {
+                audio.play().catch(error => {
+                    console.log("Autoplay ถูกบล็อก:", error);
+                    // เพิ่มข้อความให้ผู้ใช้กดปุ่มเพื่ออนุญาต
+                });
+            }
         });
+
     </script>
 
 </body>
