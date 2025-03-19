@@ -151,42 +151,52 @@
         // เริ่มต้นการจับเสียงจากไมโครโฟน
         async function startListening() {
             if (navigator.mediaDevices) {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioContext.createAnalyser();
-                microphone = audioContext.createMediaStreamSource(stream);
-                microphone.connect(analyser);
-                analyser.fftSize = 256;
-                isListening = true;
-                monitorSound();
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    console.log("Microphone access granted:", stream);
+
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioContext.createAnalyser();
+                    microphone = audioContext.createMediaStreamSource(stream);
+                    microphone.connect(analyser);
+                    analyser.fftSize = 256;
+                    isListening = true;
+
+                    console.log("AudioContext initialized:", audioContext);
+                    monitorSound();
+                } catch (error) {
+                    console.error("Error accessing microphone:", error);
+                }
             } else {
-                alert("ไมโครโฟนไม่พร้อมใช้งาน");
+                console.error("MediaDevices API not supported");
             }
         }
+
 
         // ตรวจจับระดับเสียง
         function monitorSound() {
             if (isListening) {
                 const bufferLength = analyser.frequencyBinCount;
                 const dataArray = new Uint8Array(bufferLength);
-
                 analyser.getByteFrequencyData(dataArray);
 
                 let average = 0;
                 for (let i = 0; i < bufferLength; i++) {
                     average += dataArray[i];
                 }
-
                 average = average / bufferLength;
 
-                // ถ้าความดังถึงระดับที่กำหนดให้ดับเทียน
-                if (average > 100) {
+                console.log("Average volume level:", average); // Log ค่าเสียงที่ตรวจจับได้
+
+                if (average > 100) {  
+                    console.log("Blowing detected! Extinguishing candles...");
                     extinguishCandles();
                 }
 
                 requestAnimationFrame(monitorSound);
             }
         }
+
 
         // ดับเทียนและเปลี่ยนพื้นหลังเป็นสีชมพู
         function extinguishCandles() {
