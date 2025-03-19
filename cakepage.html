@@ -139,7 +139,7 @@
         <source src="music/hbdsong02.mp4" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-    
+
 
 
     <script>
@@ -282,11 +282,12 @@
 
             changeMessage(); // แสดงข้อความแรกทันที
             setInterval(changeMessage, 5000); // เปลี่ยนข้อความทุก 3 วิ
-        } var audio = document.getElementById("bg-music");
+        }
+        var audio = document.getElementById("bg-music");
 
         var playlist = [
-            "music/Blue-Yung-Kai.mp3",
-            
+            "music/hbdsong02.mp4", // เพลงแรก
+            "music/Blue-Yung-Kai.mp3" // เพลงถัดไป
         ];
         var currentSongIndex = 0; // เริ่มต้นที่เพลงแรก
 
@@ -297,6 +298,7 @@
             audio.src = playlist[currentSongIndex]; // เปลี่ยนเพลง
             audio.play(); // เล่นเพลงถัดไป
         });
+
 
 
     </script>
